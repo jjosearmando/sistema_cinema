@@ -93,4 +93,47 @@ void carregarFilmes(Filme **filmes, int *numFilmes);
  */
 void comprarIngresso(Filme *filmes, int numFilmes);
 
+/**
+ * Carrega os dados dos filmes a partir de um arquivo de texto.
+ *
+ * @param filmes Ponteiro para o array dinâmico de filmes. Após a execução, o array conterá os filmes lidos do arquivo.
+ * @param numFilmes Ponteiro para a variável que armazenará a quantidade de filmes carregados.
+ */
+void carregarFilmesTxt(Filme **filmes, int *numFilmes);
+
+/**
+ * Salva os dados dos filmes no arquivo de texto em ordem alfabética.
+ *
+ * @param filmes Ponteiro para o array de filmes a serem salvos.
+ * @param numFilmes Número de filmes no array.
+ */
+void salvarFilmesTxt(Filme *filmes, int numFilmes);
+
+/**
+ * Função de comparação para ordenação de filmes por nome.
+ *
+ * @param a Ponteiro para o primeiro filme.
+ * @param b Ponteiro para o segundo filme.
+ * 
+ * @return Retorna um valor negativo se o nome do primeiro filme for menor, 
+ *         zero se forem iguais, ou um valor positivo se o nome do segundo filme for menor.
+ */
+int compararFilmes(const void *a, const void *b);
+
+/**
+ * Ordena o array de filmes em ordem alfabética pelo nome.
+ *
+ * @param filmes Ponteiro para o array de filmes a serem ordenados.
+ * @param numFilmes Número de filmes no array.
+ */
+void ordenarFilmes(Filme *filmes, int numFilmes);
+
+/**
+ * Busca um filme pelo nome no array de filmes.
+ *
+ * @param filmes Ponteiro para o array de filmes.
+ * @param numFilmes Número de filmes no array.
+ */
+void buscarFilme(Filme *filmes, int numFilmes);
+
 #endif // FILME_H

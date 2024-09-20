@@ -69,4 +69,47 @@ void salvarUsuarios(Usuario *usuarios, int numUsuarios);
  */
 void carregarUsuarios(Usuario **usuarios, int *numUsuarios);
 
+/**
+ * Carrega os dados dos usuários a partir de um arquivo de texto.
+ *
+ * @param usuarios Ponteiro para o array dinâmico de usuários. Após a execução, o array conterá os usuários lidos do arquivo.
+ * @param numUsuarios Ponteiro para a variável que armazenará a quantidade de usuários carregados.
+ */
+void carregarUsuariosTxt(Usuario **usuarios, int *numUsuarios);
+
+/**
+ * Salva os dados dos usuários no arquivo de texto em ordem alfabética.
+ *
+ * @param usuarios Ponteiro para o array de usuários a serem salvos.
+ * @param numUsuarios Número de usuários no array.
+ */
+void salvarUsuariosTxt(Usuario *usuarios, int numUsuarios);
+
+/**
+ * Função de comparação para ordenação de usuários por nome.
+ *
+ * @param a Ponteiro para o primeiro usuário.
+ * @param b Ponteiro para o segundo usuário.
+ * 
+ * @return Retorna um valor negativo se o nome do primeiro usuário for menor, 
+ *         zero se forem iguais, ou um valor positivo se o nome do segundo usuário for menor.
+ */
+int compararUsuarios(const void *a, const void *b);
+
+/**
+ * Ordena o array de usuários em ordem alfabética pelo nome.
+ *
+ * @param usuarios Ponteiro para o array de usuários a serem ordenados.
+ * @param numUsuarios Número de usuários no array.
+ */
+void ordenarUsuarios(Usuario *usuarios, int numUsuarios);
+
+/**
+ * Busca um usuário pelo nome no array de usuários.
+ *
+ * @param usuarios Ponteiro para o array de usuários.
+ * @param numUsuarios Número de usuários no array.
+ */
+void buscarUsuario(Usuario *usuarios, int numUsuarios);
+
 #endif // USUARIO_H

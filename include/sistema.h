@@ -37,7 +37,7 @@ void menuPrincipal(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *nu
  * @param filmes Ponteiro para o array de filmes no catálogo.
  * @param numFilmes Ponteiro para o número total de filmes no catálogo.
  */
-void menuAdministrador(Filme **filmes, int *numFilmes);
+void menuAdministrador(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *numFilmes);
 
 /**
  * @brief Exibe o menu de usuário para usuários comuns do sistema.

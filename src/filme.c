@@ -258,3 +258,137 @@ void comprarIngresso(Filme *filmes, int numFilmes){
     printf("Compra realizada com sucesso! Você comprou %d ingresso(s) para o filme '%s' no dia %s às %d.\n", 
             quantidadeIngressos, filmeEscolhido->nome, diasDaSemana[diaIndex], filmeEscolhido->diasSemana[diaIndex][horarioIndex]);
 }
+
+void salvarFilmesTxt(Filme *filmes, int numFilmes) {
+    ordenarFilmes(filmes, numFilmes);
+
+    FILE *file = fopen("data/filmes.txt", "w");
+    if (file == NULL) {
+        printf("Erro ao abrir arquivo para salvar filmes em formato texto!\n");
+        return;
+    }
+
+    fprintf(file, "%d\n", numFilmes); 
+
+    for (int i = 0; i < numFilmes; i++) {
+        fprintf(file, "%s\n", filmes[i].nome);   
+        fprintf(file, "%d\n", filmes[i].duracao);   
+        fprintf(file, "%.1f\n", filmes[i].avaliacao); 
+        fprintf(file, "%.2f\n", filmes[i].precoIngresso);
+
+        for (int j = 0; j < 7; j++) {
+            if (filmes[i].quantidadeIngressosDisponiveis[j] > 0) {
+                fprintf(file, "%s\n", diasDaSemana[j]); 
+                fprintf(file, "%d\n", filmes[i].quantidadeIngressosDisponiveis[j]);
+                for (int k = 0; k < MAX_HORARIOS; k++) {
+                    if (filmes[i].diasSemana[j][k] != -1) {
+                        fprintf(file, "%d ", filmes[i].diasSemana[j][k]); 
+                    }
+                }
+                fprintf(file, "\n");
+            }
+        }
+
+        if (i < numFilmes - 1) {
+            fprintf(file, "\n");
+        }
+    }
+
+    fclose(file);
+    printf("Filmes salvos em ordem alfabética com sucesso!\n");
+}
+
+void carregarFilmesTxt(Filme **filmes, int *numFilmes) {
+    FILE *file = fopen("data/filmes.txt", "r");
+    if (file == NULL) {
+        printf("Nenhum arquivo de filmes encontrado em formato texto. Iniciando novo arquivo.\n");
+        return;
+    }
+
+    fscanf(file, "%d\n", numFilmes); 
+
+    *filmes = malloc(*numFilmes * sizeof(Filme));
+    if (*filmes == NULL) {
+        printf("Erro ao alocar memória para carregar filmes!\n");
+        exit(1);
+    }
+
+    char diaSemana[20];
+    for (int i = 0; i < *numFilmes; i++) {
+        fgets((*filmes)[i].nome, MAX_NOME, file);
+        (*filmes)[i].nome[strcspn((*filmes)[i].nome, "\n")] = 0; 
+
+        fscanf(file, "%d\n", &(*filmes)[i].duracao);         
+        fscanf(file, "%f\n", &(*filmes)[i].avaliacao);   
+        fscanf(file, "%f\n", &(*filmes)[i].precoIngresso); 
+
+        for (int j = 0; j < 7; j++) {
+            (*filmes)[i].quantidadeIngressosDisponiveis[j] = 0;
+            for (int k = 0; k < MAX_HORARIOS; k++) {
+                (*filmes)[i].diasSemana[j][k] = -1;
+            }
+        }
+
+        while (fgets(diaSemana, sizeof(diaSemana), file) && strcmp(diaSemana, "\n") != 0) {
+            diaSemana[strcspn(diaSemana, "\n")] = 0;
+
+            int diaIndex = -1;
+            for (int j = 0; j < 7; j++) {
+                if (strcmp(diaSemana, diasDaSemana[j]) == 0) {
+                    diaIndex = j;
+                    break;
+                }
+            }
+
+            if (diaIndex != -1) {
+                fscanf(file, "%d\n", &(*filmes)[i].quantidadeIngressosDisponiveis[diaIndex]); 
+                
+                char horariosLinha[100];
+                fgets(horariosLinha, sizeof(horariosLinha), file);
+                
+                char *token = strtok(horariosLinha, " ");
+                int k = 0;
+                while (token != NULL) {
+                    int horario = atoi(token);
+                    if (horario != -1) {
+                        (*filmes)[i].diasSemana[diaIndex][k++] = horario; 
+                    }
+                    token = strtok(NULL, " ");
+                }
+            }
+        }
+    }
+
+    fclose(file);
+    printf("Filmes carregados de formato texto com sucesso!\n");
+}
+
+int compararFilmes(const void *a, const void *b) {
+    Filme *filmeA = (Filme *)a;
+    Filme *filmeB = (Filme *)b;
+    return strcmp(filmeA->nome, filmeB->nome);
+}
+
+void ordenarFilmes(Filme *filmes, int numFilmes) {
+    qsort(filmes, numFilmes, sizeof(Filme), compararFilmes);
+    printf("Filmes ordenados com sucesso!\n");
+}
+
+void buscarFilme(Filme *filmes, int numFilmes) {
+    char nome[MAX_NOME];
+    printf("Digite o nome do filme que deseja buscar: ");
+    fgets(nome, MAX_NOME, stdin);
+    nome[strcspn(nome, "\n")] = 0;
+
+    for (int i = 0; i < numFilmes; i++) {
+        if (strcmp(filmes[i].nome, nome) == 0) {
+            printf("Filme encontrado:\n");
+            printf("Nome: %s\n", filmes[i].nome);
+            printf("Duração: %d minutos\n", filmes[i].duracao);
+            printf("Avaliação: %.1f\n", filmes[i].avaliacao);
+            printf("Preço do Ingresso: R$%.2f\n", filmes[i].precoIngresso);
+            return;
+        }
+    }
+    printf("Filme não encontrado.\n");
+}

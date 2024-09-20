@@ -4,24 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(){
+int main() {
     Usuario *usuarios = NULL;
     int numUsuarios = 0;
     Filme *filmes = NULL;
     int numFilmes = 0;
 
-    carregarUsuarios(&usuarios, &numUsuarios);
-    carregarFilmes(&filmes, &numFilmes);
+    carregarUsuariosTxt(&usuarios, &numUsuarios);
+    carregarFilmesTxt(&filmes, &numFilmes);
 
     int adminExiste = 0;
-    for(int i = 0; i < numUsuarios; i++){
-        if(strcmp(usuarios[i].email, ADMIN_LOGIN) == 0){
+    for (int i = 0; i < numUsuarios; i++) {
+        if (strcmp(usuarios[i].email, ADMIN_LOGIN) == 0) {
             adminExiste = 1;
             break;
         }
     }
 
-    if(!adminExiste){
+    if (!adminExiste) {
         Usuario admin;
         strcpy(admin.email, ADMIN_LOGIN);
         strcpy(admin.senha, ADMIN_SENHA);
@@ -33,8 +33,8 @@ int main(){
 
     menuPrincipal(&usuarios, &numUsuarios, &filmes, &numFilmes);
 
-    salvarUsuarios(usuarios, numUsuarios);
-    salvarFilmes(filmes, numFilmes);
+    salvarUsuariosTxt(usuarios, numUsuarios);
+    salvarFilmesTxt(filmes, numFilmes);
 
     free(usuarios);
     free(filmes);
