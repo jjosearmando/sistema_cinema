@@ -40,7 +40,7 @@ gcc -c -o bin/sistema.o src/sistema.c -Iinclude
 gcc -c -o bin/utils.o src/utils.c -Iinclude
 gcc -c -o bin/main.o src/main.c -Iinclude
 gcc -o bin/cinema.exe bin/usuario.o bin/filme.o bin/sistema.o bin/utils.o bin/main.o
-./bin/cinema
+./bin/cinema.exe
 ```
 
 ## Estrutura do Projeto
