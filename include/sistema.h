@@ -9,51 +9,51 @@
  * de cinema, incluindo os menus de usuário e administrador, além da definição das credenciais do administrador.
  */
 
-#include "usuario.h"
-#include "filme.h"
 
 #define ADMIN_LOGIN "admin@gmail.com" /**< Email de login predefinido para o administrador. */
 #define ADMIN_SENHA "1234"            /**< Senha predefinida para o administrador. */
+
+#include "../include/filme.h"
+#include "../include/usuario.h"
 
 /**
  * @brief Exibe o menu principal do sistema de cinema.
  *
  * Esta função apresenta o menu principal do sistema, onde os usuários podem escolher entre
- * cadastrar, fazer login ou sair do sistema.
+ * cadastrar, fazer login ou sair do sistema. As listas encadeadas de usuários e filmes são passadas
+ * como ponteiros duplos para que possam ser modificadas durante a execução do programa.
  *
- * @param usuarios Ponteiro para o array de usuários cadastrados.
- * @param numUsuarios Ponteiro para o número total de usuários cadastrados.
- * @param filmes Ponteiro para o array de filmes no catálogo.
- * @param numFilmes Ponteiro para o número total de filmes no catálogo.
+ * @param usuarios Ponteiro para a lista encadeada de usuários cadastrados.
+ * @param filmes Ponteiro para a lista encadeada de filmes no catálogo.
  */
-void menuPrincipal(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *numFilmes);
+void menuPrincipal(Usuario **usuarios, Filme **filmes);
 
 /**
  * @brief Exibe o menu de administração para o administrador do sistema.
  *
  * Esta função apresenta o menu de administração, onde o administrador pode realizar operações como
- * adicionar, editar, excluir filmes, e visualizar filmes em promoção.
+ * adicionar, editar, excluir filmes, buscar usuários e filmes. A função também permite gerenciar o catálogo de filmes.
  *
- * @param filmes Ponteiro para o array de filmes no catálogo.
- * @param numFilmes Ponteiro para o número total de filmes no catálogo.
+ * @param usuarios Ponteiro para a lista encadeada de usuários cadastrados.
+ * @param filmes Ponteiro para a lista encadeada de filmes no catálogo.
  */
-void menuAdministrador(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *numFilmes);
+void menuAdministrador(Usuario **usuarios, Filme **filmes);
 
 /**
  * @brief Exibe o menu de usuário para usuários comuns do sistema.
  *
- * Esta função apresenta o menu de usuário, onde os usuários podem visualizar filmes disponíveis
- * e comprar ingressos.
+ * Esta função apresenta o menu de usuário, onde os usuários podem visualizar os filmes disponíveis
+ * no catálogo e comprar ingressos para sessões de filmes. Apenas a lista de filmes é manipulada
+ * pelos usuários comuns.
  *
- * @param filmes Array de filmes no catálogo.
- * @param numFilmes Número total de filmes no catálogo.
+ * @param filmes Ponteiro para a lista encadeada de filmes no catálogo.
  */
-void menuUsuario(Filme *filmes, int numFilmes);
+void menuUsuario(Filme *filmes);
 
 /**
  * @brief Mostra uma mensagem de boas-vindas ao usuário após o login.
  *
- * Esta função exibe uma mensagem de boas-vindas personalizada após o usuário fazer login com sucesso.
+ * Esta função exibe uma mensagem de boas-vindas ao usuário que faz login com sucesso.
  */
 void mostrarBoasVindas();
 

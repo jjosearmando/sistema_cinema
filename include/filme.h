@@ -10,107 +10,110 @@
  */
 
 #define MAX_NOME 100 /**< Define o tamanho máximo para o nome do filme. */
+#define MAX_HORARIOS 10  /**< Define o número máximo de horários por dia para exibição de filmes. */
 
-#define MAX_HORARIOS 10  // Define um número máximo de horários por dia
-
-typedef struct {
-    char nome[MAX_NOME];
-    int duracao;
-    float avaliacao;
-    float precoIngresso;
-    int diasSemana[7][MAX_HORARIOS]; // Matriz para armazenar horários por dia da semana
-    int quantidadeIngressosDisponiveis[7]; // Array para ingressos disponíveis por dia da semana
+/**
+ * @brief Estrutura que representa um filme no sistema.
+ *
+ * A estrutura contém informações sobre o filme, como nome, duração, avaliação, preço do ingresso,
+ * a quantidade de ingressos disponíveis por dia da semana, os horários de exibição, e um ponteiro para o próximo filme,
+ * formando uma lista encadeada.
+ */
+typedef struct Filme {
+    char nome[MAX_NOME];  /**< Nome do filme. */
+    int duracao;          /**< Duração do filme em minutos. */
+    float avaliacao;      /**< Avaliação do filme (0.0 a 10.0). */
+    float precoIngresso;  /**< Preço do ingresso para o filme. */
+    int quantidadeIngressosDisponiveis[7];  /**< Quantidade de ingressos disponíveis por dia da semana. */
+    int diasSemana[7][MAX_HORARIOS];  /**< Horários de exibição por dia da semana. */
+    struct Filme *prox;   /**< Ponteiro para o próximo filme na lista encadeada. */
 } Filme;
-
 
 /**
  * @brief Adiciona um novo filme ao catálogo.
  *
- * Esta função aloca memória para um novo filme, preenche seus dados e o adiciona ao catálogo.
+ * Esta função aloca memória para um novo filme, preenche seus dados e o adiciona à lista encadeada de filmes.
  *
- * @param filmes Ponteiro para o array de filmes.
- * @param numFilmes Ponteiro para o número total de filmes no catálogo.
+ * @param filmes Ponteiro para o ponteiro da lista encadeada de filmes.
  */
-void adicionarFilme(Filme **filmes, int *numFilmes);
+void adicionarFilme(Filme **filmes);
 
 /**
  * @brief Exibe a lista de filmes disponíveis no catálogo.
  *
- * Esta função lista todos os filmes atualmente disponíveis no catálogo.
+ * Esta função lista todos os filmes atualmente disponíveis no catálogo percorrendo a lista encadeada.
  *
- * @param filmes Array de filmes.
- * @param numFilmes Número total de filmes no catálogo.
+ * @param filmes Ponteiro para a lista encadeada de filmes.
  */
-void verFilmes(Filme *filmes, int numFilmes);
+void verFilmes(Filme *filmes);
 
 /**
  * @brief Edita as informações de um filme no catálogo.
  *
  * Esta função permite que o usuário edite os detalhes de um filme existente no catálogo.
  *
- * @param filmes Array de filmes.
- * @param numFilmes Número total de filmes no catálogo.
+ * @param filmes Ponteiro para a lista encadeada de filmes.
  */
-void editarFilme(Filme *filmes, int numFilmes);
+void editarFilme(Filme *filmes);
 
 /**
  * @brief Exclui um filme do catálogo.
  *
  * Esta função remove um filme do catálogo e libera a memória associada a ele.
  *
- * @param filmes Ponteiro para o array de filmes.
- * @param numFilmes Ponteiro para o número total de filmes no catálogo.
+ * @param filmes Ponteiro para o ponteiro da lista encadeada de filmes.
  */
-void excluirFilme(Filme **filmes, int *numFilmes);
+void excluirFilme(Filme **filmes);
 
 /**
  * @brief Salva os filmes em um arquivo binário.
  *
- * Esta função salva os dados de todos os filmes em um arquivo binário para persistência.
+ * Esta função salva os dados de todos os filmes presentes na lista encadeada em um arquivo binário.
  *
- * @param filmes Array de filmes.
- * @param numFilmes Número total de filmes no catálogo.
+ * @param filmes Ponteiro para a lista encadeada de filmes.
  */
-void salvarFilmes(Filme *filmes, int numFilmes);
+void salvarFilmes(Filme *filmes);
 
 /**
  * @brief Carrega os filmes de um arquivo binário.
  *
- * Esta função carrega os dados de filmes de um arquivo binário e preenche o catálogo.
+ * Esta função carrega os dados de filmes de um arquivo binário e os adiciona à lista encadeada de filmes.
  *
- * @param filmes Ponteiro para o array de filmes.
- * @param numFilmes Ponteiro para o número total de filmes no catálogo.
+ * @param filmes Ponteiro para o ponteiro da lista encadeada de filmes.
  */
-void carregarFilmes(Filme **filmes, int *numFilmes);
+void carregarFilmes(Filme **filmes);
 
 /**
  * @brief Realiza a compra de ingressos para um filme.
  *
  * Esta função permite que o usuário compre ingressos para um filme em um dia e horário específicos.
  *
- * @param filmes Array de filmes.
- * @param numFilmes Número total de filmes no catálogo.
+ * @param filmes Ponteiro para a lista encadeada de filmes.
  */
-void comprarIngresso(Filme *filmes, int numFilmes);
+void comprarIngresso(Filme *filmes);
 
 /**
- * Carrega os dados dos filmes a partir de um arquivo de texto.
+ * @brief Carrega os dados dos filmes a partir de um arquivo de texto.
  *
- * @param filmes Ponteiro para o array dinâmico de filmes. Após a execução, o array conterá os filmes lidos do arquivo.
- * @param numFilmes Ponteiro para a variável que armazenará a quantidade de filmes carregados.
- */
-void carregarFilmesTxt(Filme **filmes, int *numFilmes);
-
-/**
- * Salva os dados dos filmes no arquivo de texto em ordem alfabética.
+ * Esta função carrega os dados de filmes de um arquivo de texto e os adiciona à lista encadeada de filmes.
  *
- * @param filmes Ponteiro para o array de filmes a serem salvos.
- * @param numFilmes Número de filmes no array.
+ * @param filmes Ponteiro para o ponteiro da lista encadeada de filmes.
  */
-void salvarFilmesTxt(Filme *filmes, int numFilmes);
+void carregarFilmesTxt(Filme **filmes);
 
 /**
- * Função de comparação para ordenação de filmes por nome.
+ * @brief Salva os dados dos filmes em um arquivo de texto em ordem alfabética.
+ *
+ * Esta função salva os dados de todos os filmes presentes na lista encadeada em um arquivo de texto em ordem alfabética.
+ *
+ * @param filmes Ponteiro para a lista encadeada de filmes.
+ */
+void salvarFilmesTxt(Filme *filmes);
+
+/**
+ * @brief Função de comparação para ordenação de filmes por nome.
+ *
+ * Esta função é utilizada para comparar dois filmes pelo nome durante o processo de ordenação.
  *
  * @param a Ponteiro para o primeiro filme.
  * @param b Ponteiro para o segundo filme.
@@ -121,19 +124,21 @@ void salvarFilmesTxt(Filme *filmes, int numFilmes);
 int compararFilmes(const void *a, const void *b);
 
 /**
- * Ordena o array de filmes em ordem alfabética pelo nome.
+ * @brief Ordena a lista encadeada de filmes em ordem alfabética pelo nome.
  *
- * @param filmes Ponteiro para o array de filmes a serem ordenados.
- * @param numFilmes Número de filmes no array.
+ * Esta função ordena a lista encadeada de filmes em ordem alfabética pelo nome dos filmes.
+ *
+ * @param filmes Ponteiro para o ponteiro da lista encadeada de filmes.
  */
-void ordenarFilmes(Filme *filmes, int numFilmes);
+void ordenarFilmes(Filme **filmes);
 
 /**
- * Busca um filme pelo nome no array de filmes.
+ * @brief Busca um filme pelo nome na lista encadeada de filmes.
  *
- * @param filmes Ponteiro para o array de filmes.
- * @param numFilmes Número de filmes no array.
+ * Esta função busca um filme pelo nome na lista encadeada de filmes.
+ *
+ * @param filmes Ponteiro para a lista encadeada de filmes.
  */
-void buscarFilme(Filme *filmes, int numFilmes);
+void buscarFilme(Filme *filmes);
 
 #endif // FILME_H

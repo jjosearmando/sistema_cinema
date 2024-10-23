@@ -14,27 +14,26 @@
 #define MAX_SENHA 20  /**< Tamanho máximo para a senha do usuário. */
 
 /**
- * @struct Usuario
- * @brief Estrutura que representa um usuário no sistema de cinema.
+ * @brief Estrutura que representa um usuário no sistema.
  *
- * A estrutura `Usuario` contém informações básicas sobre um usuário, incluindo seu nome,
- * email e senha.
+ * A estrutura contém informações sobre o nome, email e senha do usuário, além de um ponteiro para o próximo usuário,
+ * formando uma lista encadeada.
  */
-typedef struct {
-    char nome[MAX_NOME];   /**< Nome do usuário. */
-    char email[MAX_EMAIL]; /**< Email do usuário. */
-    char senha[MAX_SENHA]; /**< Senha do usuário. */
+typedef struct Usuario {
+    char nome[MAX_NOME];    /**< Nome do usuário. */
+    char email[MAX_EMAIL];  /**< Email do usuário. */
+    char senha[MAX_SENHA];  /**< Senha do usuário. */
+    struct Usuario *prox;   /**< Ponteiro para o próximo usuário na lista encadeada. */
 } Usuario;
 
 /**
  * @brief Cadastra um novo usuário no sistema.
  *
- * Esta função aloca memória para um novo usuário, preenche seus dados e o adiciona à lista de usuários cadastrados.
+ * Esta função aloca memória para um novo usuário, preenche seus dados e o adiciona à lista encadeada de usuários cadastrados.
  *
- * @param usuarios Ponteiro para o array de usuários.
- * @param numUsuarios Ponteiro para o número total de usuários cadastrados.
+ * @param usuarios Ponteiro para o ponteiro da lista encadeada de usuários.
  */
-void cadastrarUsuario(Usuario **usuarios, int *numUsuarios);
+void cadastrarUsuario(Usuario **usuarios);
 
 /**
  * @brief Realiza o login de um usuário no sistema.
@@ -42,51 +41,52 @@ void cadastrarUsuario(Usuario **usuarios, int *numUsuarios);
  * Esta função verifica se as credenciais fornecidas correspondem a um usuário cadastrado e,
  * em caso de sucesso, autentica o usuário no sistema.
  *
- * @param usuarios Array de usuários cadastrados.
- * @param numUsuarios Número total de usuários cadastrados.
+ * @param usuarios Ponteiro para a lista encadeada de usuários cadastrados.
  * @return int Retorna 1 se o login for bem-sucedido, 0 caso contrário.
  */
-int login(Usuario *usuarios, int numUsuarios);
+int login(Usuario *usuarios);
 
 /**
  * @brief Salva os dados dos usuários em um arquivo binário.
  *
- * Esta função salva as informações de todos os usuários cadastrados em um arquivo binário
+ * Esta função salva as informações de todos os usuários cadastrados na lista encadeada em um arquivo binário
  * para que possam ser recuperadas em execuções futuras do programa.
  *
- * @param usuarios Array de usuários cadastrados.
- * @param numUsuarios Número total de usuários cadastrados.
+ * @param usuarios Ponteiro para a lista encadeada de usuários cadastrados.
  */
-void salvarUsuarios(Usuario *usuarios, int numUsuarios);
+void salvarUsuarios(Usuario *usuarios);
 
 /**
  * @brief Carrega os dados dos usuários de um arquivo binário.
  *
- * Esta função carrega as informações de usuários de um arquivo binário e preenche a lista de usuários cadastrados.
+ * Esta função carrega as informações de usuários de um arquivo binário e preenche a lista encadeada de usuários cadastrados.
  *
- * @param usuarios Ponteiro para o array de usuários.
- * @param numUsuarios Ponteiro para o número total de usuários cadastrados.
+ * @param usuarios Ponteiro para o ponteiro da lista encadeada de usuários.
  */
-void carregarUsuarios(Usuario **usuarios, int *numUsuarios);
+void carregarUsuarios(Usuario **usuarios);
 
 /**
- * Carrega os dados dos usuários a partir de um arquivo de texto.
+ * @brief Carrega os dados dos usuários a partir de um arquivo de texto.
  *
- * @param usuarios Ponteiro para o array dinâmico de usuários. Após a execução, o array conterá os usuários lidos do arquivo.
- * @param numUsuarios Ponteiro para a variável que armazenará a quantidade de usuários carregados.
+ * Esta função carrega as informações de usuários de um arquivo de texto e preenche a lista encadeada de usuários cadastrados.
+ *
+ * @param usuarios Ponteiro para o ponteiro da lista encadeada de usuários.
  */
-void carregarUsuariosTxt(Usuario **usuarios, int *numUsuarios);
+void carregarUsuariosTxt(Usuario **usuarios);
 
 /**
- * Salva os dados dos usuários no arquivo de texto em ordem alfabética.
+ * @brief Salva os dados dos usuários no arquivo de texto em ordem alfabética.
  *
- * @param usuarios Ponteiro para o array de usuários a serem salvos.
- * @param numUsuarios Número de usuários no array.
+ * Esta função salva as informações de todos os usuários cadastrados na lista encadeada em um arquivo de texto em ordem alfabética.
+ *
+ * @param usuarios Ponteiro para a lista encadeada de usuários cadastrados.
  */
-void salvarUsuariosTxt(Usuario *usuarios, int numUsuarios);
+void salvarUsuariosTxt(Usuario *usuarios);
 
 /**
- * Função de comparação para ordenação de usuários por nome.
+ * @brief Função de comparação para ordenação de usuários por nome.
+ *
+ * Esta função é utilizada para comparar dois usuários pelo nome durante o processo de ordenação.
  *
  * @param a Ponteiro para o primeiro usuário.
  * @param b Ponteiro para o segundo usuário.
@@ -97,19 +97,21 @@ void salvarUsuariosTxt(Usuario *usuarios, int numUsuarios);
 int compararUsuarios(const void *a, const void *b);
 
 /**
- * Ordena o array de usuários em ordem alfabética pelo nome.
+ * @brief Ordena a lista encadeada de usuários em ordem alfabética pelo nome.
  *
- * @param usuarios Ponteiro para o array de usuários a serem ordenados.
- * @param numUsuarios Número de usuários no array.
+ * Esta função ordena a lista encadeada de usuários em ordem alfabética pelo nome dos usuários.
+ *
+ * @param usuarios Ponteiro para o ponteiro da lista encadeada de usuários.
  */
-void ordenarUsuarios(Usuario *usuarios, int numUsuarios);
+void ordenarUsuarios(Usuario **usuarios);
 
 /**
- * Busca um usuário pelo nome no array de usuários.
+ * @brief Busca um usuário pelo nome na lista encadeada de usuários.
  *
- * @param usuarios Ponteiro para o array de usuários.
- * @param numUsuarios Número de usuários no array.
+ * Esta função busca um usuário pelo nome na lista encadeada de usuários cadastrados.
+ *
+ * @param usuarios Ponteiro para a lista encadeada de usuários.
  */
-void buscarUsuario(Usuario *usuarios, int numUsuarios);
+void buscarUsuario(Usuario *usuarios);
 
 #endif // USUARIO_H

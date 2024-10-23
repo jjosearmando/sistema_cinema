@@ -1,7 +1,7 @@
-#include "sistema.h"
-#include "usuario.h"
-#include "filme.h"
-#include "utils.h"
+#include "../include/sistema.h"
+#include "../include/usuario.h"
+#include "../include/filme.h"
+#include "../include/utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -9,7 +9,7 @@ void mostrarBoasVindas() {
     printf("Bem-vindo ao Cinema, aproveite sua sessão!\n");
 }
 
-void menuPrincipal(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *numFilmes) {
+void menuPrincipal(Usuario **usuarios, Filme **filmes) {
     int opcao;
     do {
         printf("\nSistema de Cinema\n");
@@ -20,13 +20,13 @@ void menuPrincipal(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *nu
         opcao = lerOpcao(1, 3);
 
         if (opcao == 1) {
-            cadastrarUsuario(usuarios, numUsuarios);
+            cadastrarUsuario(usuarios);  // Passa o ponteiro para a lista de usuários
         } else if (opcao == 2) {
-            int loginResult = login(*usuarios, *numUsuarios);
+            int loginResult = login(*usuarios);  // Passa a lista de usuários para login
             if (loginResult == 2) {
-                menuAdministrador(usuarios, numUsuarios, filmes, numFilmes);
+                menuAdministrador(usuarios, filmes);  // Passa as listas para o menu administrador
             } else if (loginResult == 1) {
-                menuUsuario(*filmes, *numFilmes);
+                menuUsuario(*filmes);  // Passa a lista de filmes para o menu de usuário
             }
         }
     } while (opcao != 3);
@@ -34,7 +34,7 @@ void menuPrincipal(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *nu
     printf("Saindo do sistema...\n");
 }
 
-void menuAdministrador(Usuario **usuarios, int *numUsuarios, Filme **filmes, int *numFilmes) {
+void menuAdministrador(Usuario **usuarios, Filme **filmes) {
     int opcao;
     do {
         printf("\nMenu Administrador:\n");
@@ -50,22 +50,22 @@ void menuAdministrador(Usuario **usuarios, int *numUsuarios, Filme **filmes, int
 
         switch (opcao) {
             case 1:
-                adicionarFilme(filmes, numFilmes);
+                adicionarFilme(filmes);  // Passa o ponteiro para a lista de filmes
                 break;
             case 2:
-                verFilmes(*filmes, *numFilmes);
+                verFilmes(*filmes);  // Passa a lista de filmes
                 break;
             case 3:
-                editarFilme(*filmes, *numFilmes);
+                editarFilme(*filmes);  // Passa a lista de filmes
                 break;
             case 4:
-                excluirFilme(filmes, numFilmes);
+                excluirFilme(filmes);  // Passa o ponteiro para a lista de filmes
                 break;
             case 5:
-                buscarFilme(*filmes, *numFilmes);
+                buscarFilme(*filmes);  // Passa a lista de filmes
                 break;
             case 6:
-                buscarUsuario(*usuarios, *numUsuarios);
+                buscarUsuario(*usuarios);  // Passa a lista de usuários
                 break;
             case 7:
                 printf("Saindo do menu administrador...\n");
@@ -74,7 +74,7 @@ void menuAdministrador(Usuario **usuarios, int *numUsuarios, Filme **filmes, int
     } while (opcao != 7);
 }
 
-void menuUsuario(Filme *filmes, int numFilmes) {
+void menuUsuario(Filme *filmes) {
     int opcao;
     do {
         printf("\nMenu Usuário:\n");
@@ -87,13 +87,13 @@ void menuUsuario(Filme *filmes, int numFilmes) {
 
         switch (opcao) {
             case 1:
-                verFilmes(filmes, numFilmes);
+                verFilmes(filmes);  // Passa a lista de filmes
                 break;
             case 2:
-                comprarIngresso(filmes, numFilmes);
+                comprarIngresso(filmes);  // Passa a lista de filmes
                 break;
             case 3:
-                buscarFilme(filmes, numFilmes);
+                buscarFilme(filmes);  // Passa a lista de filmes
                 break;
             case 4:
                 printf("Saindo...\n");
